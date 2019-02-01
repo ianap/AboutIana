@@ -1,4 +1,4 @@
-package com.inc.iana.aboutiana.jsonEntry;
+package com.inc.iana.aboutiana.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
