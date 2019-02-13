@@ -9,10 +9,10 @@ import com.inc.iana.aboutiana.Model.Item
 import android.content.Context
 
 
-class PostAdapter(val items:List<Item>, val context: Context): RecyclerView.Adapter<ViewHolder>() {
+class PostAdapter(val items:List<Item>, val context: Context?): RecyclerView.Adapter<ViewHolder>() {
 
 
-    // Gets the number of animals in the list
+    // Gets the number of posts in the list
     override fun getItemCount(): Int {
         return items.size
     }
@@ -22,7 +22,7 @@ class PostAdapter(val items:List<Item>, val context: Context): RecyclerView.Adap
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.post_item, parent, false))
     }
 
-    // Binds each animal in the ArrayList to a view
+    //
     override fun onBindViewHolder(p0: ViewHolder, position: Int) {
         val item =  items.get(position)
         p0?.postTitle?.text = item.title

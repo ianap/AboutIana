@@ -9,7 +9,17 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.inc.iana.aboutiana.ApiService.BloggerApiService
+import com.inc.iana.aboutiana.Model.PostList
 import com.inc.iana.aboutiana.R
+import com.inc.iana.aboutiana.adapters.PostAdapter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import android.util.Log
+import com.inc.iana.aboutiana.Model.Item
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -45,9 +55,23 @@ class DataScienceFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_data_science, container, false)
-        postListView = rootView.findViewById(R.id.rv_data_science_posts) as RecyclerView // Add this
-        //postListView.layoutManager = LinearLayoutManager(activity)
-        //postListView.adapter = MainAdapter()
+        postListView = rootView.findViewById(R.id.rv_data_science_posts) as RecyclerView
+
+        var api = BloggerApiService.apiInterface
+        var call = api.getPostList()
+        call.enqueue(object : Callback<PostList> {
+            override fun onFailure(call: Call<PostList>?, t: Throwable?) {
+                t?.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<PostList>?, response: Response<PostList>?) {
+                var listPost = response?.body()
+                var posts = listPost!!.items
+
+                Log.d("Result", "There are ${posts.size} posts in blogger")
+                val PostAdapter = PostAdapter(posts, context)
+            }
+        })
         return rootView
     }
 
@@ -55,6 +79,9 @@ class DataScienceFragment : Fragment() {
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
     }
+
+
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
