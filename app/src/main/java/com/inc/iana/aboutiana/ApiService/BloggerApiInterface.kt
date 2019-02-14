@@ -9,13 +9,13 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface BloggerApiInterface {
-    @GET("?key="+"")
+    @GET("?key="+"AIzaSyCPMEEw0Wn43cbBSyThBDBWiMUpXFhD5yc")
     fun getPostList():Call<PostList>
 
     @GET("?labels={label}/users")
     fun getPostByLabel(@Path("label") label:String):Call<Item>
 
-    @GET("?labels={label1}+{label2)&key="+"")
+    @GET("?labels={label1}+{label2)&key="+"AIzaSyCPMEEw0Wn43cbBSyThBDBWiMUpXFhD5yc")
     fun getPostByLabels(@Path("label1") label1:String, @Path("label2") label2:String):Call<Item>
 
     companion object {

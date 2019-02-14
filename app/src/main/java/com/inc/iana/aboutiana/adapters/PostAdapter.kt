@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.inc.iana.aboutiana.Model.Item
 import android.content.Context
+import com.inc.iana.aboutiana.utils.*
+import com.bumptech.glide.Glide
 
 
 class PostAdapter(val items:List<Item>, val context: Context?): RecyclerView.Adapter<ViewHolder>() {
@@ -27,6 +29,11 @@ class PostAdapter(val items:List<Item>, val context: Context?): RecyclerView.Ada
         val item =  items.get(position)
         p0?.postTitle?.text = item.title
         p0?.postDescr?.text = item.content
+
+        val utils = HTMLUtils()
+        val tokens = utils.getImage(item.content)
+
+        Glide.with(context!!).load(tokens.get(0)).into(p0?.postImage)
 
     }
 }
