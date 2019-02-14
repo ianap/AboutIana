@@ -19,6 +19,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.util.Log
+import com.inc.iana.aboutiana.ApiService.BloggerApiInterface
 import com.inc.iana.aboutiana.Model.Item
 
 
@@ -42,6 +43,10 @@ class DataScienceFragment : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
     private var postListView: RecyclerView? = null
+    private val apiServe by lazy {
+        BloggerApiInterface.create()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,21 +60,23 @@ class DataScienceFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_data_science, container, false)
-        postListView = rootView.findViewById(R.id.rv_data_science_posts) as RecyclerView
+        val postListView = rootView.findViewById(R.id.rv_data_science_posts) as RecyclerView
 
-        var api = BloggerApiService.apiInterface
-        var call = api.getPostList()
+
+        val call = apiServe.getPostList()
         call.enqueue(object : Callback<PostList> {
             override fun onFailure(call: Call<PostList>?, t: Throwable?) {
                 t?.printStackTrace()
             }
 
             override fun onResponse(call: Call<PostList>?, response: Response<PostList>?) {
-                var listPost = response?.body()
-                var posts = listPost!!.items
+                val listPost = response?.body()
+                val posts = listPost!!.items
 
                 Log.d("Result", "There are ${posts.size} posts in blogger")
-                val PostAdapter = PostAdapter(posts, context)
+                val adapter = PostAdapter(posts, context)
+                postListView.layoutManager=LinearLayoutManager(activity)
+                postListView.adapter=adapter
             }
         })
         return rootView
