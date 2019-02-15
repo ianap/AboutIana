@@ -27,13 +27,16 @@ class PostAdapter(val items:List<Item>, val context: Context?): RecyclerView.Ada
     //
     override fun onBindViewHolder(p0: ViewHolder, position: Int) {
         val item =  items.get(position)
-        p0?.postTitle?.text = item.title
-        p0?.postDescr?.text = item.content
-
         val utils = HTMLUtils()
-        val tokens = utils.getImage(item.content)
 
-        Glide.with(context!!).load(tokens.get(0)).into(p0?.postImage)
+        val jsoupText = utils.jsoupUtilText(item.content)
+        val jsoupElements = utils.jsoupUtilImage(item.content)
+
+        p0?.postTitle?.text = item.title
+        p0?.postDescr?.text = jsoupText
+
+
+        Glide.with(context!!).load(jsoupElements.get(0).attr("src")).into(p0?.postImage)
 
     }
 }
