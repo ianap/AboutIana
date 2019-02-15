@@ -9,6 +9,8 @@ import com.inc.iana.aboutiana.Model.Item
 import android.content.Context
 import com.inc.iana.aboutiana.utils.*
 import com.bumptech.glide.Glide
+import android.content.Intent
+import com.inc.iana.aboutiana.activities.DetailActivity
 
 
 class PostAdapter(val items:List<Item>, val context: Context?): RecyclerView.Adapter<ViewHolder>() {
@@ -37,7 +39,11 @@ class PostAdapter(val items:List<Item>, val context: Context?): RecyclerView.Ada
 
 
         Glide.with(context!!).load(jsoupElements.get(0).attr("src")).into(p0?.postImage)
-
+        p0.itemView.setOnClickListener{
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("url",item.url)
+            context.startActivity(intent)
+        }
     }
 }
 
