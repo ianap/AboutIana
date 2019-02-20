@@ -64,6 +64,7 @@ class DataScienceFragment : Fragment() {
 
 
         val call = apiServe.getPostList()
+        //val call = apiServe.getPostByLabels("Data","Science")
         call.enqueue(object : Callback<PostList> {
             override fun onFailure(call: Call<PostList>?, t: Throwable?) {
                 t?.printStackTrace()
